@@ -20,7 +20,6 @@ const envSchema = z.object({
             .transform((value) => parseInt(value)),
     ]),
 });
-
 const env = envSchema.parse({
     POSTGRES_HOST: process.env.POSTGRES_HOST,
     POSTGRES_PORT: process.env.POSTGRES_PORT,

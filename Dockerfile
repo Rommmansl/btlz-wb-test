@@ -1,24 +1,14 @@
-# your node version
-FROM node:20-alpine AS deps-prod
+FROM node:16.20.0-bullseye-slim
 
 WORKDIR /app
 
-COPY ./package*.json .
+COPY package*.json ./
 
-RUN npm install --omit=dev
-
-FROM deps-prod AS build
-
-RUN npm install --include=dev
+RUN npm install
 
 COPY . .
-
 RUN npm run build
 
-FROM node:20-alpine AS prod
+EXPOSE 3000
 
-WORKDIR /app
-
-COPY --from=build /app/package*.json .
-COPY --from=deps-prod /app/node_modules ./node_modules
-COPY --from=build /app/dist ./dist
+CMD ["npm", "start"]
